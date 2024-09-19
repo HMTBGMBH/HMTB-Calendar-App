@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Kalender App</h1>
+    <a href="/add">Neuen Termin hinzufügen</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Beginn</th>
+                <th>Ende</th>
+                <th>Kunde</th>
+                <th>Ort</th>
+                <th>Art des Termins</th>
+                <th>Kommentar</th>
+                <th>Bestätigung</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.date }}</td>
+                <td>{{ event.start_time }}</td>
+                <td>{{ event.end_time }}</td>
+                <td>{{ event.customer }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.event_type }}</td>
+                <td>{{ event.comment }}</td>
+                <td>{{ event.confirmation }}</td>
+                <td>
+                    <a href="/edit/{{ event.id }}">Bearbeiten</a>
+                    <form action="/delete/{{ event.id }}" method="POST">
+                        <button type="submit">Löschen</button>
+                    </form>
+                    <form action="/upload_to_dropbox/{{ event.id }}" method="POST">
+                        <button type="submit">In Dropbox hochladen</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
